@@ -60,7 +60,9 @@ class ParserHH:
             link_1 = root.xpath('//a[@class="bloko-link HH-LinkModifier"]/@href')
             for el in link_1:
                 link.append(el)
-
+        
+        # Здесь я пытался одной командой эти листы запарсить, не получилось :(
+        
         # data = root.xpath('//div[@class="bloko-gap bloko-gap_s-top bloko-gap_m-top bloko-gap_l-top"]'
         #                   '//div[@class="vacancy-serp-item "]//a[@class="bloko-link HH-LinkModifier"]'
         #                   '//span[@class="bloko-section-header-3 bloko-section-header-3_lite"]/text()')
