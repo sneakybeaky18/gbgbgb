@@ -1,22 +1,8 @@
 from lxml import html
+import re
 import requests
 import pandas as pd
-
-
-######################################################################################################################################################
-
-# Необходимо собрать информацию о вакансиях на вводимую должность (используем input или через аргументы) с сайтов Superjob и HH.
-# Приложение должно анализировать несколько страниц сайта (также вводим через input или аргументы). Получившийся список должен содержать в себе минимум:
-
-# * Наименование вакансии.
-# * Предлагаемую зарплату (отдельно минимальную, максимальную и валюту).
-# * Ссылку на саму вакансию.
-# * Сайт, откуда собрана вакансия.
-#
-# По желанию можно добавить ещё параметры вакансии (например, работодателя и расположение).
-# Структура должна быть одинаковая для вакансий с обоих сайтов. Общий результат можно вывести с помощью dataFrame через pandas.
-
-######################################################################################################################################################
+import numpy as np
 
 class ParserHH:
 
@@ -70,9 +56,53 @@ class ParserHH:
 
         df.to_csv('df.csv', index=False)
 
+    def data_convert(self):
+
+        data = "df.csv"
+        df = pd.read_csv(data)
+        list = df['monthIncome']
+        list2 = []
+
+        for el in list:
+            filter1 = el.replace(u'\xa0',"")
+            filter2 = filter1.replace(" ","")
+            filter3 = filter2.replace(u"\n2","")
+            filter4 = filter3.replace("от","")
+            filter5 = filter4.replace(".","")
+            list2.append(filter5)
+        df = df.drop(columns=['monthIncome'])
+
+        minMaxValues = []
+        for el in list2:
+            r = re.findall(r"([\d|\s]+)", str(el))
+            minMaxValues.append(r)
+
+        df['money'] = minMaxValues
+
+        maxValues = []
+        minValues = []
+        for money in df['money']:
+            minValues.append(money[0])
+            maxValues.append(money[-1])
+
+        df['min_money'] = minValues
+        df['max_money'] = maxValues
+
+        df = df.drop(columns=['money'])
+
+        df.to_csv('df_corrected.csv', index=False)
+
         return df
 
-
 pr = ParserHH()
+################################################################################################
+# Сначала необходимо вызвать функцию, которая сгенерирует датафрейм (pr.get_connection())
+#
+# Затем закоментировать #pr.get_connection()
+#
+# После неё, нужно вызывать функцию, которая обработает и конвертирует данные (pr.data_convert())
+################################################################################################
 
-print(pr.get_connection()["monthIncome"])
+
+pr.get_connection()
+# print(pr.data_convert())
