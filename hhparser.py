@@ -56,10 +56,13 @@ class ParserHH:
 
         df.to_csv('df.csv', index=False)
 
+        return df
+
     def data_convert(self):
 
-        data = "df.csv"
-        df = pd.read_csv(data)
+        # data = "df.csv"
+        # df = pd.read_csv(data)
+        df = self.get_connection()
         list = df['monthIncome']
         list2 = []
 
@@ -95,14 +98,6 @@ class ParserHH:
         return df
 
 pr = ParserHH()
-################################################################################################
-# Сначала необходимо вызвать функцию, которая сгенерирует датафрейм (pr.get_connection())
-#
-# Затем закоментировать #pr.get_connection()
-#
-# После неё, нужно вызывать функцию, которая обработает и конвертирует данные (pr.data_convert())
-################################################################################################
 
-
-pr.get_connection()
-# print(pr.data_convert())
+# pr.get_connection()
+print(pr.data_convert())
