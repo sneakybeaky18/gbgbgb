@@ -9,9 +9,9 @@ class MailRu_NewsParser:
 
     def parse(self):
 
-        yandex_news = "https://news.mail.ru/"
+        link = "https://news.mail.ru/"
         headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36'}
-        response = requests.get(yandex_news)
+        response = requests.get(link)
 
         dom = html.fromstring(response.text)
 
