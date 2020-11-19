@@ -24,10 +24,12 @@ class Yandex_News_Parser:
             news_name = item.xpath(".//h2[contains(@class,'news-card__title')]/text()")
             news_link = item.xpath(".//a/@href")
             news_date_time = item.xpath(".//span[contains(@class,'mg-card-source__time')]/text()")
+            news_source = item.xpath(".//span[@class='mg-card-source__source']//text()")
             news['news_link'] = news_link
             news['news_header'] = news_name
             news['datetime'] = str(datetime.date(datetime.now()))
             news['time_gmt3'] = news_date_time
+            news['news_source'] = news_source
             news_list.append(news)
 
         return news_list
