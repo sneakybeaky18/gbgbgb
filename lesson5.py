@@ -8,6 +8,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from pprint import pprint
 import time
+import random as r
+
+seconds = r.randint(3,5)
 
 chrome_options = Options()
 driver = webdriver.Chrome(executable_path='./chromedriver.exe', options=chrome_options)
@@ -40,8 +43,11 @@ mail_info = []
 for link in links:
     mail = {}
     driver.get(link)
+    time.sleep(seconds)
     subject = driver.find_element_by_class_name('thread__subject').text
+    time.sleep(seconds)
     sender = driver.find_element_by_class_name('letter-contact').text
+    time.sleep(seconds)
     depart_date = driver.find_element_by_class_name('letter__date').text
     try:
         text = driver.find_element_by_xpath("//div[@class='letter__body']").text
